@@ -84,7 +84,26 @@ class PostValidation
       $option == 'username' &&
       !preg_match('#^[a-zA-Z0-9_]+$#', $_POST[$field])
     ) {
-      self::$errors[$field] = $option .' can only contain letters(a-z), numbers(0-9) and (_)';
+      self::$errors[$field] = $option . ' can only contain letters(a-z), numbers(0-9) and (_)';
+    }
+  }
+
+  private static function correct_to(string $password_field, $user_name_field)
+  {
+    if (
+      !empty(self::$errors[$password_field]) ||
+      !empty(self::$errors[$user_name_field]) ||
+      !isset($_POST[$password_field]) ||
+      !isset($_POST[$user_name_field])
+    ) {
+      return null;
+    }
+
+    $user = User::read($_POST[$user_name_field]);
+
+    if(!$user || !password_verify($_POST[$password_field], $user['user_password'])) {
+      self::$errors[$password_field] = 'invalid username or password';
+      self::$errors[$user_name_field] = 'invalid username or password';
     }
   }
 }
