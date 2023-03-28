@@ -14,6 +14,9 @@ class Router
   /** @var string regular expression string to escape question mark(?) on routes */
   private const OPTION = '\?';
 
+  /** @var string regular expression string to escape question mark(?) on routes */
+  private const USERNAME = '[a-zA-Z0-9_]+';
+
   /**
    * @param array $routes an array of valid routes pattern and their matching controller/method
    *              (e.g. 'PATCH /messages/:id?score=:operation' => ['Api\Controller\Messages', 'update_score'])
@@ -31,7 +34,7 @@ class Router
   public function route(string $uri)
   {
     foreach ($this->routes as $route => $class_method) {
-      $route = '#^' . str_replace([':id', '?', ':operation'], [self::ID, self::OPTION, self::OPERATION], $route) . '$#';
+      $route = '#^' . str_replace([':id', '?', ':operation', ':username'], [self::ID, self::OPTION, self::OPERATION, self::USERNAME], $route) . '$#';
 
       if(preg_match($route, $uri)) {
         $class = new $class_method[0]();
@@ -40,7 +43,6 @@ class Router
       }
     }
 
-    $http_response = new HttpResponse(404, ['message' => 'not found', 'documentation_url' => '']);
-    return $http_response->send();
+    return HttpResponse::send(404, ['message' => 'not found', 'documentation_url' => '']);
   }
 }

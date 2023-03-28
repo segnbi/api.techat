@@ -23,14 +23,17 @@ class User
 
     $pdo = Database::connect();
 
-    $pdo_statement = $pdo->prepare('INSERT INTO users(user_name, user_password, user_image) VALUES (:user_name, :user_password, :user_image)');
+    $pdo_statement = $pdo->prepare(
+      'INSERT INTO users(user_name, user_password, user_image)
+       VALUES (:user_name, :user_password, :user_image)'
+    );
     $pdo_statement->execute([
       'user_name' => $user_name,
       'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
       'user_image' => 'http://localhost:8080' . $image_path
     ]);
 
-    $pdo_statement = $pdo->query('SELECT id, user_name, user_image FROM users WHERE id = LAST_INSERT_ID()');
+    $pdo_statement = $pdo->query('SELECT user_name, user_image FROM users WHERE id = LAST_INSERT_ID()');
 
     return $pdo_statement->fetch();
   }
@@ -43,5 +46,14 @@ class User
     $pdo_statement->execute(['user_name' => $user_name]);
 
     return $pdo_statement->fetch();
+  }
+
+  public static function read_all()
+  {
+    $pdo = Database::connect();
+
+    $pdo_statement = $pdo->query('SELECT id, user_name, user_image FROM users');
+
+    return $pdo_statement->fetchAll();
   }
 }
