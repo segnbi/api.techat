@@ -4,16 +4,17 @@ namespace Api\Controller;
 
 use Api\Model\User;
 use Api\Model\Comment;
+use Api\Request\Request;
 use Api\Model\CommentScored;
+use Api\Request\FormRequest;
+use Api\Request\JsonRequest;
 use Api\Response\HttpResponse;
-use Api\Validation\FormRequest;
-use Api\Validation\JsonRequest;
-use Api\Validation\PostValidation;
-use Api\Validation\PatchValidation;
+use Api\Validator\PostValidator;
+use Api\Validator\PatchValidator;
 
 class CommentController
 {
-  public function read_all($uri)
+  public function read_all(Request $request)
   {
     session_start();
     if (!isset($_SESSION['user_name'])) {
@@ -71,23 +72,22 @@ class CommentController
     return HttpResponse::send(200, $response);
   }
 
-  public function create($uri)
+  public function create(Request $request)
   {
     session_start();
     if (!isset($_SESSION['user_name'])) {
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PostValidation::check([
+    $errors = PostValidator::check([
       'content' => ['required']
-    ], new FormRequest);
+    ], new FormRequest($request->uri));
 
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
     }
 
-    $current_user = User::read($_SESSION['user_name']);
-    $created_comment = Comment::create($_POST['content'], $current_user['id']);
+    $created_comment = Comment::create($_POST['content'], $_SESSION['user_id']);
 
     unset($created_comment['replying_to_comment']);
 
@@ -97,35 +97,33 @@ class CommentController
     );
   }
 
-  public function create_reply($uri)
+  public function create_reply(Request $request)
   {
     session_start();
     if (!isset($_SESSION['user_name'])) {
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $replied_comment_id = explode('=', $uri)[1];
+    $replied_comment_id = explode('=', $request->uri)[1];
     $replied_comment = Comment::read($replied_comment_id);
 
     if (!$replied_comment) {
       return HttpResponse::send(404, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $current_user = User::read($_SESSION['user_name']);
-
-    if ($replied_comment['user_id'] == $current_user['id']) {
+    if ($replied_comment['user_id'] == $_SESSION['user_id']) {
       return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PostValidation::check([
+    $errors = PostValidator::check([
       'content' => ['required'],
-    ], new FormRequest);
+    ], new FormRequest($request->uri));
 
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
     }
 
-    $created_reply = Comment::create($_POST['content'], $current_user['id'], $replied_comment_id);
+    $created_reply = Comment::create($_POST['content'], $_SESSION['user_id'], $replied_comment_id);
 
     unset($created_reply['user_id']);
 
@@ -135,29 +133,27 @@ class CommentController
     );
   }
 
-  public function update_content($uri)
+  public function update_content(Request $request)
   {
     session_start();
     if (!isset($_SESSION['user_name'])) {
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $comment_id = explode('/', $uri)[2];
+    $comment_id = explode('/', $request->uri)[2];
     $comment = Comment::read($comment_id);
 
     if (!$comment) {
       return HttpResponse::send(404, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $current_user = User::read($_SESSION['user_name']);
-
-    if ($current_user['id'] != $comment['user_id']) {
+    if ($_SESSION['user_id'] != $comment['user_id']) {
       return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PatchValidation::check([
+    $errors = PatchValidator::check([
       'content' => ['required']
-    ], new JsonRequest);
+    ], new JsonRequest($request->uri));
     
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
@@ -175,23 +171,21 @@ class CommentController
     );
   }
 
-  public function delete($uri)
+  public function delete(Request $request)
   {
     session_start();
     if (!isset($_SESSION['user_name'])) {
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $comment_id = explode('/', $uri)[2];
+    $comment_id = explode('/', $request->uri)[2];
     $comment = Comment::read($comment_id);
 
     if (!$comment) {
       return HttpResponse::send(404, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $current_user = User::read($_SESSION['user_name']);
-
-    if ($current_user['id'] != $comment['user_id']) {
+    if ($_SESSION['user_id'] != $comment['user_id']) {
       return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
@@ -208,7 +202,7 @@ class CommentController
     return HttpResponse::send(204);
   }
 
-  public function update_score($uri)
+  public function update_score(Request $request)
   {
     session_start();
 
@@ -216,7 +210,7 @@ class CommentController
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $uri = str_replace(['?', '='], ['/', '/'], $uri);
+    $uri = str_replace(['?', '='], ['/', '/'], $request->uri);
 
     $comment_id = explode('/', $uri)[2];
     $operation = explode('/', $uri)[4];
@@ -227,12 +221,10 @@ class CommentController
       return HttpResponse::send(404, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $current_user = User::read($_SESSION['user_name']);
-
-    $comment_scored = CommentScored::read($comment_id, $current_user['id']);
+    $comment_scored = CommentScored::read($comment_id, $_SESSION['user_id']);
 
     if (!$comment_scored && $operation == '+1') {
-      CommentScored::create($comment_id, $current_user['id']);
+      CommentScored::create($comment_id, $_SESSION['user_id']);
       $comment = Comment::update_score(++$comment['score'], $comment_id);
 
       unset($comment['user_id']);
@@ -241,7 +233,7 @@ class CommentController
     }
     
     if ($comment_scored && $operation == '-1') {
-      CommentScored::delete($comment_id, $current_user['id']);
+      CommentScored::delete($comment_id, $_SESSION['user_id']);
       $comment = Comment::update_score(--$comment['score'], $comment_id);
       
       unset($comment['user_id']);

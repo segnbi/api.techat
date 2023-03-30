@@ -4,6 +4,7 @@ header("Content-Type: application/json");
 
 require_once 'spl-autoload.php';
 
+use Api\Request\Request;
 use Api\Router\Router;
 
 $router = new Router([
@@ -17,4 +18,4 @@ $router = new Router([
   'DELETE /comments/:id' => ['Api\Controller\CommentController', 'delete']
 ]);
 
-$router->route($_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI']);
+$router->route(new Request($_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI']));

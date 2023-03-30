@@ -1,13 +1,20 @@
 <?php
 
-namespace Api\Validation;
+namespace Api\Validator;
 
 use Api\Model\User;
+use Api\Request\AbstractRequest;
 
-class PostValidation
+class PostValidator
 {
   public static array $errors = [];
 
+  /**
+   * match fields to their corresponding rules method
+   * 
+   * @param array $field_rules an associative array with each fields and their validation rules
+   * @param AbstractRequest $request_type specify the request content type(json or form)
+   */
   public static function check(array $field_rules, AbstractRequest $request_type): array
   {
     foreach($request_type->get_content() as $key => $value) {

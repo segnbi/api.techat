@@ -1,10 +1,11 @@
 <?php
 
-namespace Api\Validation;
+namespace Api\Request;
 
 class JsonRequest extends AbstractRequest
 {
-  private array $content = [];
+  public function __construct(public string $uri)
+  {}
 
   public function get_content(): array {
     $json_data = json_decode(file_get_contents('php://input'));

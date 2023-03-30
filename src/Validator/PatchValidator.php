@@ -1,8 +1,10 @@
 <?php
 
-namespace Api\Validation;
+namespace Api\Validator;
 
-class PatchValidation
+use Api\Request\AbstractRequest;
+
+class PatchValidator
 {
   protected static array $errors = [];
 

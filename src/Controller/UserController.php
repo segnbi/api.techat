@@ -4,19 +4,19 @@ namespace Api\Controller;
 
 use Api\Model\User;
 use Api\Response\HttpResponse;
-use Api\Validation\FormRequest;
-use Api\Validation\PostValidation;
-
+use Api\Request\FormRequest;
+use Api\Request\Request;
+use Api\Validator\PostValidator;
 
 class UserController
 {
-  public function create(string $uri)
+  public function create(Request $request)
   {
-    $errors = PostValidation::check([
+    $errors = PostValidator::check([
       'user_name' => ['required', 'valid_char:username', 'unused'],
       'user_password' => ['required', 'min_char:8'],
       'user_image' => ['allowed_file:jpg,jpeg,png,svg,webp', 'max_size:500']
-    ], new FormRequest);
+    ], new FormRequest($request->uri));
 
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);

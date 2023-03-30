@@ -6,7 +6,7 @@ use Api\Database\Database;
 
 class Comment
 {
-  public static function create(string $content, int $user_id, $replying_to_comment = NULL)
+  public static function create(string $content, int $user_id, int|NULL $replying_to_comment = NULL)
   {
     $content = strip_tags($content);
 
