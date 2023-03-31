@@ -8,7 +8,6 @@ use Api\Validator\RequestValidator;
 
 class Request
 {
-  protected static array $errors = [];
   public string $uri;
   public ContentType $content_type;
   public RequestValidator $request_validator;
