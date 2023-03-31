@@ -2,15 +2,13 @@
 
 namespace Api\Validator;
 
-use Api\Request\AbstractRequest;
-
-class PatchValidator
+class PatchValidator extends RequestValidator
 {
-  protected static array $errors = [];
+  public static array $errors = [];
 
-  public static function check(array $field_rules, AbstractRequest $request_type): array
+  public static function check(array $field_rules, array $request_content = []): array
   {
-    foreach ($request_type->get_content() as $key => $value) {
+    foreach ($request_content as $key => $value) {
       $GLOBALS['_PATCH'][$key] = $value;
     }
 

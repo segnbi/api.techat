@@ -20,8 +20,7 @@ class Router
 
   /**
    * @param array $routes an array of valid routes pattern and their matching controller/method
-   *              (e.g. 'PATCH /messages/:id?score=:operation' => ['Api\Controller\Messages', 'update_score'])
-   * @return void
+   *              (e.g. 'GET /messages' => ['Api\Controller\Messages', 'read_all'])
    */
   public function __construct(private array $routes = [])
   {}
@@ -29,8 +28,7 @@ class Router
   /**
    * match upcoming http request to the right controller/method
    * 
-   * @param Request $request refer to the upcoming http request e.g. " new Request('POST /users') "
-   * @return void
+   * @param Request $request refer to the upcoming http request
    */
   public function route(Request $request)
   {

@@ -3,21 +3,12 @@
 namespace Api\Validator;
 
 use Api\Model\User;
-use Api\Request\AbstractRequest;
 
-class PostValidator
+class PostValidator extends RequestValidator
 {
-  public static array $errors = [];
-
-  /**
-   * match fields to their corresponding rules method
-   * 
-   * @param array $field_rules an associative array with each fields and their validation rules
-   * @param AbstractRequest $request_type specify the request content type(json or form)
-   */
-  public static function check(array $field_rules, AbstractRequest $request_type): array
+  public static function check(array $field_rules, array $request_content = []): array
   {
-    foreach($request_type->get_content() as $key => $value) {
+    foreach($request_content as $key => $value) {
       $_POST[$key] = $value;
     }
 

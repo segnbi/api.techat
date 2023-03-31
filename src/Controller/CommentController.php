@@ -6,11 +6,7 @@ use Api\Model\User;
 use Api\Model\Comment;
 use Api\Request\Request;
 use Api\Model\CommentScored;
-use Api\Request\FormRequest;
-use Api\Request\JsonRequest;
 use Api\Response\HttpResponse;
-use Api\Validator\PostValidator;
-use Api\Validator\PatchValidator;
 
 class CommentController
 {
@@ -79,9 +75,9 @@ class CommentController
       return HttpResponse::send(401, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PostValidator::check([
+    $errors = $request->check([
       'content' => ['required']
-    ], new FormRequest($request->uri));
+    ]);
 
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
@@ -115,9 +111,9 @@ class CommentController
       return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PostValidator::check([
+    $errors = $request->check([
       'content' => ['required'],
-    ], new FormRequest($request->uri));
+    ]);
 
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
@@ -151,9 +147,9 @@ class CommentController
       return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
     }
 
-    $errors = PatchValidator::check([
+    $errors = $request->check([
       'content' => ['required']
-    ], new JsonRequest($request->uri));
+    ]);
     
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
