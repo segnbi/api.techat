@@ -4,8 +4,6 @@ namespace Api\Validator;
 
 class PatchValidator extends RequestValidator
 {
-  public static array $errors = [];
-
   public static function check(array $field_rules, array $request_content = []): array
   {
     foreach ($request_content as $key => $value) {

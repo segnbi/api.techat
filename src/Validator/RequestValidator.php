@@ -4,7 +4,7 @@ namespace Api\Validator;
 
 abstract class RequestValidator
 {
-  public static array $errors = [];
+  protected static array $errors = [];
 
   /**
    * match fields to their corresponding rules method

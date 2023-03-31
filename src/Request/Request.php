@@ -9,8 +9,8 @@ use Api\Validator\RequestValidator;
 class Request
 {
   public string $uri;
-  public ContentType $content_type;
-  public RequestValidator $request_validator;
+  private ContentType $content_type;
+  private RequestValidator $request_validator;
 
   public function __construct(string $uri)
   {
