@@ -12,9 +12,13 @@ class Request
   private ContentType $content_type;
   private RequestValidator $request_validator;
 
-  public function __construct(string $uri)
+  /**
+   * @param string $verb http verb e.g. GET
+   * @param string $uri e.g. /comments
+   */
+  public function __construct(string $verb, string $uri)
   {
-    $this->uri = $_SERVER['REQUEST_METHOD'] . ' ' . $uri;
+    $this->uri = $verb . ' ' . $uri;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $this->request_validator = new PostValidator();
