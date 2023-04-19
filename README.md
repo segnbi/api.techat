@@ -117,7 +117,7 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 #### Endpoint
 
-`PATCH /comments/{id}?score={operation}` \*with **\*operation = +1 or -1\*\***
+`PATCH /comments/{id}?score={operation}` _with ***operation = +1 or -1***_
 
 #### Response
 
