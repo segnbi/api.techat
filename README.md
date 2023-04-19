@@ -1,21 +1,37 @@
-# Forum Tech Restful API
+# Tech Chat Restful API
 
 This is the RESTful API for the [Forum-Tech](https://exemple.com) web application.  
 The API is currently hosted and can be accessed with this url https://api.forum-tech.com.
 
 ## Authentication
 
-Some endpoints are private. There is two public endpoints that allows you to signup and login therefore you can access to the private endpoints.  
+The API authentication is based on **SESSION**. These two public endpoints allows you to create an account and login therefor you can access to the privates endpoints.
 
-> Notice: The API Authentication is SESSION based Authenctication
+### Sign up
+
+`POST /users` \*with **_form-data_** content type\*
+
+### Login
+
+`POST /authentication` \*with **_form-data_** content type\*
+
+### Response
+
+    {
+        "id": 1,
+        "user_name": "username",
+        "user_image": ""
+    }
 
 ## CORE Resources
 
-### Request
+### Retrive comments
+
+#### Endpoint
 
 `GET /comments`
 
-### Response
+#### Response
 
     {
         "current_user": {
@@ -49,7 +65,9 @@ Some endpoints are private. There is two public endpoints that allows you to sig
         ]
     }
 
-### Request
+### Post new comment
+
+### Endpoint
 
 `POST /comments`
 
@@ -62,3 +80,61 @@ Some endpoints are private. There is two public endpoints that allows you to sig
         "score": 0,
         "user_id": 81
     }
+
+### Post a reply
+
+### Endpoint
+
+`POST /comments?replying-to-comment={id}` \*with **_form-data_** content type\*
+
+### Response
+
+    {
+        "id": 35,
+        "content": "new comment",
+        "created_at": "2023-04-02 17:39:59",
+        "score": 0,
+        "user_id": 81
+    }
+
+### modify a comment
+
+### Endpoint
+
+`PATCH /comments/{id}` \*with **_application/json_** content type\*
+
+### Response
+
+    {
+        "id": 35,
+        "content": "new comment",
+        "created_at": "2023-04-02 17:39:59",
+        "score": 0,
+        "user_id": 81
+    }
+
+### give a score
+
+### Endpoint
+
+`PATCH /comments/{id}?score={operation}` \*with **\*operation = +1 or -1\*\***
+
+### Response
+
+    {
+        "id": 35,
+        "content": "new comment",
+        "created_at": "2023-04-02 17:39:59",
+        "score": 0,
+        "user_id": 81
+    }
+
+### delete a comment
+
+### Endpoint
+
+`DELETE /comments/{id}`
+
+### Response
+
+    no-content
