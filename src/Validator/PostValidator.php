@@ -38,7 +38,7 @@ class PostValidator extends RequestValidator
 
   private static function unused(string $field)
   {
-    if (empty($errors[$field]) && isset($_POST[$field]) && User::read($_POST[$field])) {
+    if (empty(self::$errors[$field]) && isset($_POST[$field]) && User::read($_POST[$field])) {
       self::$errors[$field] = 'user already exist';
     }
   }

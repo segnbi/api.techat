@@ -20,23 +20,23 @@ class Request
   {
     $this->uri = $verb . ' ' . $uri;
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $this->request_validator = new PostValidator();
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'PATCH') {
+    if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
       $this->request_validator = new PatchValidator();
     }
 
-    if(!isset($_SERVER['CONTENT_TYPE'])) {
+    if (!isset($_SERVER['CONTENT_TYPE'])) {
       return $this->content_type = new NoContent();
     }
 
-    if(str_contains($_SERVER['CONTENT_TYPE'], 'form-data')) {
+    if (str_contains($_SERVER['CONTENT_TYPE'], 'form-data')) {
       $this->content_type = new FormContent();
     }
 
-    if(str_contains($_SERVER['CONTENT_TYPE'], 'json')) {
+    if (str_contains($_SERVER['CONTENT_TYPE'], 'json')) {
       $this->content_type = new JsonContent();
     }
   }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Api\Router;
 
 use Api\Request\Request;
@@ -18,12 +19,16 @@ class Router
   /** @var string regular expression string to escape question mark(?) on routes */
   private const USERNAME = '[a-zA-Z0-9_]+';
 
+  /** @var string regular expression string to escape question mark(?) on routes */
+  private const ANY = '.+';
+
   /**
    * @param array $routes an array of valid routes pattern and their matching controller/method
    *              (e.g. 'GET /messages' => ['Api\Controller\Messages', 'read_all'])
    */
   public function __construct(private array $routes = [])
-  {}
+  {
+  }
 
   /**
    * match upcoming http request to the right controller/method
@@ -33,9 +38,9 @@ class Router
   public function route(Request $request)
   {
     foreach ($this->routes as $route => $class_method) {
-      $route = '#^' . str_replace([':id', '?', ':operation', ':username'], [self::ID, self::OPTION, self::OPERATION, self::USERNAME], $route) . '$#';
+      $route = '#^' . str_replace([':id', '?', ':operation', ':username', ':any'], [self::ID, self::OPTION, self::OPERATION, self::USERNAME, self::ANY], $route) . '$#';
 
-      if(preg_match($route, $request->uri)) {
+      if (preg_match($route, $request->uri)) {
         $class = new $class_method[0]();
         $method = $class_method[1];
         return $class->$method($request);

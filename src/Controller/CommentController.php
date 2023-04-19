@@ -150,12 +150,16 @@ class CommentController
     $errors = $request->check([
       'content' => ['required']
     ]);
-    
+
     if (count($errors) > 0) {
       return HttpResponse::send(400, ['messages' => $errors, 'documentation_url' => '']);
     }
 
     $_PATCH = $GLOBALS['_PATCH'];
+
+    if ($_PATCH['content'] == $comment['content']) {
+      return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
+    }
 
     $updated_comment = Comment::update($_PATCH['content'], $comment_id);
 
@@ -187,8 +191,8 @@ class CommentController
 
     $replies = Comment::read_all_replies();
 
-    foreach($replies as $reply) {
-      if($reply['replying_to_comment'] == $comment['id']) {
+    foreach ($replies as $reply) {
+      if ($reply['replying_to_comment'] == $comment['id']) {
         return HttpResponse::send(403, ['messages' => 'not found', 'documentation_url' => '']);
       }
     }
@@ -224,14 +228,14 @@ class CommentController
       $comment = Comment::update_score(++$comment['score'], $comment_id);
 
       unset($comment['user_id']);
-      
+
       return HttpResponse::send(200, $comment);
     }
-    
+
     if ($comment_scored && $operation == '-1') {
       CommentScored::delete($comment_id, $_SESSION['user_id']);
       $comment = Comment::update_score(--$comment['score'], $comment_id);
-      
+
       unset($comment['user_id']);
 
       return HttpResponse::send(200, $comment);

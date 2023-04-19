@@ -23,7 +23,9 @@ class AuthController
 
     if(isset($_POST['auto_connection'])) {
       session_set_cookie_params([
-        'lifetime' => 31536000
+        'secure' => true,
+        'lifetime' => 31536000,
+        'samesite' => 'None'
       ]);
     } else {
       $_POST['auto_connection'] = '';
