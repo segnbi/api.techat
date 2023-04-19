@@ -9,11 +9,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Sign up
 
-`POST /users` \*with **_form-data_** content type\*
+`POST /users` _with ***form-data*** content type_
 
 ### Login
 
-`POST /authentication` \*with **_form-data_** content type\*
+`POST /authentication` _with ***form-data*** content type_
 
 ### Response
 
@@ -85,7 +85,7 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Endpoint
 
-`POST /comments?replying-to-comment={id}` \*with **_form-data_** content type\*
+`POST /comments?replying-to-comment={id}` _with ***form-data*** content type_
 
 ### Response
 
@@ -101,7 +101,7 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Endpoint
 
-`PATCH /comments/{id}` \*with **_application/json_** content type\*
+`PATCH /comments/{id}` _with ***application/json*** content type_
 
 ### Response
 
