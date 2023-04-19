@@ -15,7 +15,7 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 `POST /authentication` _with ***form-data*** content type_
 
-### Response
+#### Response
 
     {
         "id": 1,
@@ -27,11 +27,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Retrive comments
 
-#### Endpoint
+##### Endpoint
 
 `GET /comments`
 
-#### Response
+##### Response
 
     {
         "current_user": {
@@ -67,11 +67,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Post new comment
 
-### Endpoint
+#### Endpoint
 
 `POST /comments`
 
-### Response
+#### Response
 
     {
         "id": 35,
@@ -83,11 +83,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### Post a reply
 
-### Endpoint
+#### Endpoint
 
 `POST /comments?replying-to-comment={id}` _with ***form-data*** content type_
 
-### Response
+#### Response
 
     {
         "id": 35,
@@ -99,11 +99,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### modify a comment
 
-### Endpoint
+#### Endpoint
 
 `PATCH /comments/{id}` _with ***application/json*** content type_
 
-### Response
+#### Response
 
     {
         "id": 35,
@@ -115,11 +115,11 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### give a score
 
-### Endpoint
+#### Endpoint
 
 `PATCH /comments/{id}?score={operation}` \*with **\*operation = +1 or -1\*\***
 
-### Response
+#### Response
 
     {
         "id": 35,
@@ -131,10 +131,10 @@ The API authentication is based on **SESSION**. These two public endpoints allow
 
 ### delete a comment
 
-### Endpoint
+#### Endpoint
 
 `DELETE /comments/{id}`
 
-### Response
+#### Response
 
     no-content
