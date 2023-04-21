@@ -7,23 +7,17 @@ use Api\Response\HttpResponse;
 
 class Router
 {
-  /** @var string regular expression string for valid identifier on routes */
+  /** @var string regular expression for valid ID on uri */
   private const ID = '[0-9]+';
 
-  /** @var string regular expression string for valid operation on routes */
+  /** @var string regular expression for valid operation on uri */
   private const OPERATION = '[+-]1';
 
-  /** @var string regular expression string to escape question mark(?) on routes */
-  private const OPTION = '\?';
-
-  /** @var string regular expression string to escape question mark(?) on routes */
-  private const USERNAME = '[a-zA-Z0-9_]+';
-
-  /** @var string regular expression string to escape question mark(?) on routes */
+  /** @var string regular expression to allow all different uri */
   private const ANY = '.+';
 
   /**
-   * @param array $routes an array of valid routes pattern and their matching controller/method
+   * @param array $routes array of valid routes pattern and their matching controller/method
    *              (e.g. 'GET /messages' => ['Api\Controller\Messages', 'read_all'])
    */
   public function __construct(private array $routes = [])
@@ -31,14 +25,14 @@ class Router
   }
 
   /**
-   * match upcoming http request to the right controller/method
+   * match http request to the right controller/method
    * 
-   * @param Request $request refer to the upcoming http request
+   * @param Request $request http request
    */
   public function route(Request $request)
   {
     foreach ($this->routes as $route => $class_method) {
-      $route = '#^' . str_replace([':id', '?', ':operation', ':username', ':any'], [self::ID, self::OPTION, self::OPERATION, self::USERNAME, self::ANY], $route) . '$#';
+      $route = '#^' . str_replace([':id', '?', ':operation', ':any'], [self::ID, '\?', self::OPERATION, self::ANY], $route) . '$#';
 
       if (preg_match($route, $request->uri)) {
         $class = new $class_method[0]();
