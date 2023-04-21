@@ -41,6 +41,11 @@ class Request
     }
   }
 
+  /**
+   * init fields checking
+   * 
+   * @param array $field_rules associative array with each field and its validation rules
+   */
   public function check(array $field_rules): array
   {
     $request_content = $this->content_type->get_content();
