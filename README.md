@@ -14,7 +14,7 @@ The API's authentication is based on __Session__. You can create an account here
 
 __Headers:__
 
-`Accept: form-data`
+`Content-type: form-data`
 
 __Body__ (_e.g._)__:__
 
@@ -98,7 +98,7 @@ Add comment
 Request
 POST /comments
 Request headers
-Accept: form-data
+Content-type: form-data
 
 Response
 200 ok
@@ -117,7 +117,7 @@ Reply a comment
 Request
 POST /comments?replying-to-comment={id}
 Request headers
-Accept: form-data
+Content-type: form-data
 
 Response
 200 ok
@@ -136,7 +136,7 @@ Modify a comment
 Request
 PATCH /comments/{id}
 Request headers
-Accept: application/json
+Content-type: application/json
 
 Response
 200 ok
@@ -155,7 +155,7 @@ Add/ remove score
 Request
 PATCH /comments/{id}?score={operation}
 Request headers
-Accept: application/json
+Content-type: application/json
 
 Response
 200 ok
@@ -174,7 +174,7 @@ Delete a comment
 Request
 DELETE /comments/{id}
 Request headers
-Accept: application/json
+Content-type: application/json
 
 Response
 200 ok
