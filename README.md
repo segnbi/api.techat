@@ -1,21 +1,22 @@
-# Tech Chat Restful API
+# Techat API
 
-This is the RESTful API for the [Forum-Tech](https://exemple.com) web application.  
-The API is currently hosted and can be accessed with this url https://api.forum-tech.com.
+_API Server:_  https://api.techat.com.
 
 ## Authentication
 
-The API authentication is based on **SESSION**. These two public endpoints allows you to create an account and login therefor you can access to the privates endpoints.
+The API's authentication is based on __Session__. You can create an account here [Techat web application](https://github.com/serignebidev/tech-chat-web-application).
 
-### Sign up
+### Get Session ID
 
-`POST /users` _with ***form-data*** content type_
+#### Request
 
-### Login
+`POST /authentication`
 
-`POST /authentication` _with ***form-data*** content type_
+__Headers:__
 
-#### Response
+`Accept: form-data`
+
+__Body__ (_e.g._)__:__
 
     {
         "id": 1,
@@ -23,15 +24,43 @@ The API authentication is based on **SESSION**. These two public endpoints allow
         "user_image": ""
     }
 
-## CORE Resources
+#### Response
 
-### Retrive comments
+`200 ok`
 
-##### Endpoint
+__Headers:__
+
+`Content-type: Text`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+## Core resources
+
+### Retrieve all comments
+
+#### Request
 
 `GET /comments`
 
-##### Response
+__Headers:__
+
+`N/A`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+#### Response
+
+`200 ok`
+
+__Headers:__
+
+`Content-type: application-json`
+
+__Body__ (_e.g._)__:__
 
     {
         "current_user": {
@@ -65,76 +94,91 @@ The API authentication is based on **SESSION**. These two public endpoints allow
         ]
     }
 
-### Post new comment
+Add comment
+Request
+POST /comments
+Request headers
+Accept: form-data
 
-#### Endpoint
+Response
+200 ok
+Response headers
+Content-type: application-json
+Exemples
+{
+"id": 35,
+"content": "new comment",
+"created_at": "2023-04-02 17:39:59",
+"score": 0,
+"user_id": 81
+}
 
-`POST /comments`
+Reply a comment
+Request
+POST /comments?replying-to-comment={id}
+Request headers
+Accept: form-data
 
-#### Response
+Response
+200 ok
+Response headers
+Content-type: application-json
+Exemples
+{
+"id": 35,
+"content": "new comment",
+"created_at": "2023-04-02 17:39:59",
+"score": 0,
+"user_id": 81
+}
 
-    {
-        "id": 35,
-        "content": "new comment",
-        "created_at": "2023-04-02 17:39:59",
-        "score": 0,
-        "user_id": 81
-    }
+Modify a comment
+Request
+PATCH /comments/{id}
+Request headers
+Accept: application/json
 
-### Post a reply
+Response
+200 ok
+Response headers
+Content-type: application-json
+Exemples
+{
+"id": 35,
+"content": "new comment",
+"created_at": "2023-04-02 17:39:59",
+"score": 0,
+"user_id": 81
+}
 
-#### Endpoint
+Add/ remove score
+Request
+PATCH /comments/{id}?score={operation}
+Request headers
+Accept: application/json
 
-`POST /comments?replying-to-comment={id}` _with ***form-data*** content type_
+Response
+200 ok
+Response headers
+Content-type: application-json
+Exemples
+{
+"id": 35,
+"content": "new comment",
+"created_at": "2023-04-02 17:39:59",
+"score": 0,
+"user_id": 81
+}
 
-#### Response
+Delete a comment
+Request
+DELETE /comments/{id}
+Request headers
+Accept: application/json
 
-    {
-        "id": 35,
-        "content": "new comment",
-        "created_at": "2023-04-02 17:39:59",
-        "score": 0,
-        "user_id": 81
-    }
-
-### modify a comment
-
-#### Endpoint
-
-`PATCH /comments/{id}` _with ***application/json*** content type_
-
-#### Response
-
-    {
-        "id": 35,
-        "content": "new comment",
-        "created_at": "2023-04-02 17:39:59",
-        "score": 0,
-        "user_id": 81
-    }
-
-### give a score
-
-#### Endpoint
-
-`PATCH /comments/{id}?score={operation}` _with ***operation = +1 or -1***_
-
-#### Response
-
-    {
-        "id": 35,
-        "content": "new comment",
-        "created_at": "2023-04-02 17:39:59",
-        "score": 0,
-        "user_id": 81
-    }
-
-### delete a comment
-
-#### Endpoint
-
-`DELETE /comments/{id}`
-
-#### Response
-
-    no-content
+Response
+200 ok
+Response headers
+Content-type: application-json
+Exemples
+no content
