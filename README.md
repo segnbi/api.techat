@@ -14,14 +14,13 @@ The API's authentication is based on __Session__. You can create an account here
 
 __Headers:__
 
-`Content-type: form-data`
+`Content-type: multipart/form-data`
 
 __Body__ (_e.g._)__:__
 
     {
-        "id": 1,
         "user_name": "username",
-        "user_image": ""
+        "user_password": "password"
     }
 
 #### Response
@@ -30,7 +29,7 @@ __Body__ (_e.g._)__:__
 
 __Headers:__
 
-`Content-type: Text`
+`N/A`
 
 __Body__ (_e.g._)__:__
 
@@ -94,91 +93,140 @@ __Body__ (_e.g._)__:__
         ]
     }
 
-Add comment
-Request
-POST /comments
-Request headers
-Content-type: form-data
+### Add comment
 
-Response
-200 ok
-Response headers
-Content-type: application-json
-Exemples
-{
-"id": 35,
-"content": "new comment",
-"created_at": "2023-04-02 17:39:59",
-"score": 0,
-"user_id": 81
-}
+#### Request
 
-Reply a comment
-Request
-POST /comments?replying-to-comment={id}
-Request headers
-Content-type: form-data
+`POST /comments`
 
-Response
-200 ok
-Response headers
-Content-type: application-json
-Exemples
-{
-"id": 35,
-"content": "new comment",
-"created_at": "2023-04-02 17:39:59",
-"score": 0,
-"user_id": 81
-}
+__Headers:__
 
-Modify a comment
-Request
-PATCH /comments/{id}
-Request headers
-Content-type: application/json
+`Content-type: multipart/form-data`
 
-Response
-200 ok
-Response headers
-Content-type: application-json
-Exemples
-{
-"id": 35,
-"content": "new comment",
-"created_at": "2023-04-02 17:39:59",
-"score": 0,
-"user_id": 81
-}
+__Body__ (_e.g._)__:__
 
-Add/ remove score
-Request
-PATCH /comments/{id}?score={operation}
-Request headers
-Content-type: application/json
+    {
+        "content": "new comment",
+    }
 
-Response
-200 ok
-Response headers
-Content-type: application-json
-Exemples
-{
-"id": 35,
-"content": "new comment",
-"created_at": "2023-04-02 17:39:59",
-"score": 0,
-"user_id": 81
-}
+#### Response
 
-Delete a comment
-Request
-DELETE /comments/{id}
-Request headers
-Content-type: application/json
+`200 ok`
 
-Response
-200 ok
-Response headers
-Content-type: application-json
-Exemples
-no content
+__Headers:__
+
+`Content-type: application-json`
+
+__Body__ (_e.g._)__:__
+
+    {
+        "id": 35,
+        "content": "new comment",
+        "created_at": "2023-04-02 17:39:59",
+        "score": 0,
+        "user_id": 81
+    }
+
+### Reply a comment
+
+### Request
+
+`POST /comments?replying-to-comment={id}`
+
+__Headers:__
+
+`Content-type: multipart/form-data`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+#### Response
+
+`200 ok`
+
+__Headers:__
+
+`Content-type: application-json`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+### Modify a comment
+
+### Request
+
+`PATCH /comments/{id}`
+
+__Headers:__
+
+`Content-type: application/json`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+#### Response
+
+`200 ok`
+
+__Headers:__
+
+`Content-type: application/json`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+### Modify score
+
+### Request
+
+`PATCH /comments/{id}?score={ +1 | -1 }`
+
+__Headers:__
+
+`N/A`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+#### Response
+
+`200 ok`
+
+__Headers:__
+
+`Content-type: application/json`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+### Delete a comment
+
+### Request
+
+`DELETE /comments/{id}`
+
+__Headers:__
+
+`N/A`
+
+__Body__ (_e.g._)__:__
+
+    N/A
+
+#### Response
+
+`204 No content`
+
+__Headers:__
+
+`N/A`
+
+__Body__ (_e.g._)__:__
+
+    N/A
