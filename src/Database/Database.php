@@ -8,7 +8,7 @@ use PDOException;
 class Database
 {
   private const HOST = 'localhost';
-  private const DB_NAME = 'forum_tech_db';
+  private const DB_NAME = 'techat_db';
   private const USER = 'root';
   private const PASSWORD = 'root';
 

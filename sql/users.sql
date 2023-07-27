@@ -1,0 +1,7 @@
+-- create table users (
+--   id int unsigned auto_increment,
+--   user_name varchar(50),
+--   user_password varchar(255),
+--   user_image varchar(255),
+--   primary key (id)
+-- );

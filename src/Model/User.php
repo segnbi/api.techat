@@ -8,16 +8,16 @@ class User
 {
   public static function create(string $user_name, string $user_password, array|string $user_image)
   {
-    $image_path = '/public/images/default-image.png';
+    $image_path = 'public/images/default-image.png';
     $user_name = strip_tags($user_name);
 
     if (!empty($user_image) && $user_image['error'] == 0) {
       $image_extension = pathinfo($user_image['name'])['extension'];
-      $image_path = '/public/images/' . $user_name . '-image.' . $image_extension;
+      $image_path = 'public/images/' . $user_name . '-image.' . $image_extension;
 
       move_uploaded_file(
         $_FILES['user_image']['tmp_name'],
-        'forum-tech-api/' . $image_path
+        $image_path
       );
     }
 
@@ -30,7 +30,7 @@ class User
     $pdo_statement->execute([
       'user_name' => $user_name,
       'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
-      'user_image' => 'http://localhost:8080' . $image_path
+      'user_image' => 'http://localhost:8000/' . $image_path
     ]);
 
     $pdo_statement = $pdo->query('SELECT user_name, user_image FROM users WHERE id = LAST_INSERT_ID()');

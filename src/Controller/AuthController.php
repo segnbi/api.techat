@@ -27,16 +27,13 @@ class AuthController
         'lifetime' => 31536000,
         'samesite' => 'None'
       ]);
-    } else {
-      $_POST['auto_connection'] = '';
     }
+    
     session_start();
     $_SESSION['user_name'] = $_POST['user_name'];
     $_SESSION['user_id'] = $current_user['id'];
 
     $response = $current_user;
-
-    $response['auto_connection'] = $_POST['auto_connection'];
 
     return HttpResponse::send(
       200,
