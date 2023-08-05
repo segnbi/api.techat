@@ -1,3 +1,3 @@
 # Techat API
 
-A Restfull API built with PHP
+A Restfull API built with PHP.
