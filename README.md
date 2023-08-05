@@ -1,3 +1,3 @@
 # Techat API
 
-A Restfull API built with PHP.
+A Restfull API for [Techat web application](https://github.com/segnbi/techat).
