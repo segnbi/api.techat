@@ -1,3 +1,3 @@
 # Techat API
 
-A Restfull API for [Techat web application](https://github.com/segnbi/techat).
+A Restfull API for the [Techat](https://github.com/segnbi/techat)'s web application.
