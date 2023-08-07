@@ -1,10 +1,10 @@
 # Techat API
 
-A Restfull API for the [Techat](https://github.com/segnbi/techat)'s web application built with [PHP](https://en.wikipedia.org/wiki/PHP).
+A Restfull API for the [Techat](https://github.com/segnbi/techat)'s web application built with [PHP](https://en.wikipedia.org/wiki/PHP) and [MySql](https://en.wikipedia.org/wiki/MySQL).
 
 ## Authentication
 
-This API's authtication is __Session__ based authentication.
+This API's authentication is __Session__ based authentication.
 
 ### Get Session ID
 
